@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorblack"
+    tools:context=".RegistroActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textColor="@color/color_FondoBlanco"
+            android:text="REGISTRO DE USUARIO"
+            android:textSize="30sp"
+            />
+
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:background="@drawable/borde_verde"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
+            android:layout_height="180dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Datos Personales"
+                android:fontFamily="sans-serif-condensed-light"
+                android:textSize="25sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/color_FondoBlanco"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="260dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                app:counterEnabled="true"
+                app:counterMaxLength="30"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/fondo_edittxt">
+                <EditText
+                    android:drawableLeft="@drawable/icons8_name_50"
+                    android:drawablePadding="10dp"
+                    android:id="@+id/edtx_nombreRegistro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Nombres"
+                    android:inputType="textAutoComplete"
+                    android:textColor="#333333"
+                    android:textColorHint="#d8d8d8"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="260dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                app:counterEnabled="true"
+                app:counterMaxLength="30"
+                app:errorEnabled="true"
+                android:background="@drawable/fondo_edittxt2">
+                <EditText
+                    android:drawableLeft="@drawable/icons8_name_50"
+                    android:drawablePadding="10dp"
+                    android:id="@+id/edtx_apellidoRegistro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Apellidos"
+                    android:inputType="textAutoComplete"
+                    android:textColor="#333333"
+                    android:textColorHint="#d8d8d8"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:background="@drawable/borde_verde"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="300dp"
+            android:layout_height="180dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Datos de Ingreso"
+                android:layout_marginLeft="20dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:textSize="25sp"
+                android:textColor="@color/color_FondoBlanco"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="260dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/fondo_edittxt">
+                <EditText
+                    android:id="@+id/txt_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="true"
+                    android:drawableLeft="@drawable/iconemail"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="Correo Electronico"
+                    android:inputType="textAutoComplete"
+                    android:textColor="#333333"
+                    android:textColorHint="#d8d8d8"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                app:passwordToggleEnabled="true"
+                android:layout_width="260dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/fondo_edittxt2">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/txt_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:cursorVisible="true"
+                    android:drawableLeft="@drawable/icons8_key_2_50"
+                    android:ems="10"
+                    android:drawableStart="@drawable/icons8_key_2_50"
+                    android:hint="Contraseña"
+                    android:fontFamily="sans-serif-light"
+                    android:inputType="textPassword"
+                    android:textColor="#333333"
+                    android:textColorHint="#d8d8d8"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp" />
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+
+
+
+        <android.support.design.widget.TextInputLayout
+            app:passwordToggleEnabled="true"
+            android:visibility="gone"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@drawable/fondo_edittxt2">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/txt_pass_conf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cursorVisible="true"
+                android:drawableLeft="@drawable/icons8_key_2_50"
+                android:ems="10"
+                android:hint="Confirmar Contraseña"
+                android:fontFamily="sans-serif-light"
+                android:drawablePadding="10dp"
+                android:inputType="textPassword"
+                android:textColor="#333333"
+                android:drawableStart="@drawable/icons8_key_2_50"
+                android:textColorHint="#d8d8d8"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
+
+            <Button
+                android:id="@+id/botonRegistrar"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/fondo_boton"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-light"
+                android:textSize="18sp"
+                android:text="REGISTRAR"
+                android:textColorLink="@color/colorAccent"
+                />
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

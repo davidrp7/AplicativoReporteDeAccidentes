@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo2wall"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="REPORTE DE ACCIDENTE"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textColor="@color/color_FondoBlanco"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-light"
+            android:layout_gravity="center_horizontal"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Primer paso, seleccione el tipo de accidente ocurrido:">
+                </TextView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <Spinner
+                        android:layout_marginTop="3dp"
+                        android:id="@+id/spinnerTipo"
+                        android:layout_width="160dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/fondo_edittxt2">
+                    </Spinner>
+                    <Button
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:onClick="btn_ayuda_tipo"
+                        android:background="@drawable/fondo_blanco"
+                        android:foreground="@drawable/icon_help"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:text="Segundo paso, seleccione la gravedad del accidente">
+                </TextView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <Spinner
+                        android:layout_marginTop="3dp"
+                        android:id="@+id/spinnerGravedad"
+                        android:layout_width="160dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/fondo_edittxt2">
+                    </Spinner>
+                    <Button
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:onClick="btn_ayuda_gravedad"
+                        android:background="@drawable/fondo_blanco"
+                        android:foreground="@drawable/icon_help"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:text="Si es de tipo CHOQUE, seleccione el factor contra lo que se produjo el mismo">
+                </TextView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <Spinner
+                        android:layout_marginTop="3dp"
+                        android:id="@+id/spinnerFactor"
+                        android:layout_width="160dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/fondo_edittxt2">
+                    </Spinner>
+                    <Button
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:background="@drawable/fondo_blanco"
+                        android:foreground="@drawable/icon_help"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/fondo_boton"
+                android:onClick="onClickReportar"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="bold"
+                android:text="Reportar"/>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

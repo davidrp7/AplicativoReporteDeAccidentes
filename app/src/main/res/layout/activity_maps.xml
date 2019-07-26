@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <fragment
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".MapsActivity" />
+
+            </android.support.design.widget.CoordinatorLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/txt_tipomap"
+            android:layout_width="120dp"
+            android:paddingLeft="5dp"
+            android:layout_height="wrap_content"
+            android:text="Tipo de Mapa: "
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="20sp"
+            android:paddingStart="5dp" />
+
+        <Switch
+            android:id="@+id/switchMap"
+            android:onClick="MapaSwitch"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/txt_tipomap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/txt_tipomap" />
+
+        <Button
+            android:id="@+id/btn_regresar"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:textSize="20sp"
+            android:layout_marginLeft="30dp"
+            android:onClick="btn_regresar_map"
+            android:fontFamily="sans-serif-condensed-light"
+            android:layout_toRightOf="@id/switchMap"
+            android:background="@color/colorPrimary"
+            android:layout_marginTop="13dp"
+            android:text="REPORTE"/>
+
+    </RelativeLayout>
+
+
+    <include
+        android:id="@+id/bottomJsoft"
+        layout="@layout/bottomsheet_layout">
+    </include>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "274681338143",
+    "firebase_url": "https://proyectodegrado-bae3e.firebaseio.com",
+    "project_id": "proyectodegrado-bae3e",
+    "storage_bucket": "proyectodegrado-bae3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274681338143:android:f4ead63792d143fd",
+        "android_client_info": {
+          "package_name": "google.maps.colombia.aplicativoreportedeaccidentes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274681338143-n3qj1j2lptifsatc1geg86tdlpt7rmrh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "google.maps.colombia.aplicativoreportedeaccidentes",
+            "certificate_hash": "bb17875b71d7ef12070651b71f992e4a42454d21"
+          }
+        },
+        {
+          "client_id": "274681338143-5a7pqcnmsr6sg5fe9ebo51r9vrpfkbum.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJeaUKyD22gJmPbqt5xgqFQFeg_9plkhA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274681338143-5a7pqcnmsr6sg5fe9ebo51r9vrpfkbum.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

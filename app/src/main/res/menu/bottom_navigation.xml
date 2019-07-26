@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/ic_home_black_24dp">
+    </item>
+    <item
+        android:id="@+id/nav_reportar"
+        android:title="Reportar"
+        android:icon="@drawable/icon_report96">
+    </item>
+    <item
+        android:id="@+id/nav_consultar"
+        android:title="Consultar"
+        android:icon="@drawable/icon_marker96">
+    </item>
+
+    <item
+        android:id="@+id/nav_estadisticas"
+        android:title="Estadisticas"
+        android:icon="@drawable/icon_stats96">
+    </item>
+</menu>

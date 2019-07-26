@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:background="@drawable/fondo2wall"
+    tools:context=".Estadisticas">
+
+    <TextView
+        android:text="INFORME DE ESTADISTICAS"
+        android:textColor="@color/color_FondoBlanco"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+            android:layout_marginTop="20sp"
+            android:id="@+id/btn_generarestadisticas"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:background="@drawable/fondo_boton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="GENERAR ESTADISTICAS"/>
+
+    <RelativeLayout
+        android:visibility="visible"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/txv_reportep"
+        android:textColor="@color/color_FondoBlanco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generar reporte por: "
+        android:fontFamily="sans-serif-condensed-light"
+        android:textSize="20sp"/>
+
+        <Spinner
+            android:layout_toRightOf="@id/txv_reportep"
+            android:layout_marginTop="3dp"
+            android:id="@+id/spinnerReporte"
+            android:layout_width="160dp"
+            android:layout_height="30dp"
+            android:backgroundTintMode="screen"
+            android:backgroundTint="@color/colorblack"
+            android:popupBackground="@color/color_FondoBlanco"
+            android:background="@color/color_FondoBlanco">
+        </Spinner>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/LinearCotenedor"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+        android:visibility="visible"
+        android:id="@+id/TablaGravedad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#d8000000"
+        android:padding="5dp"
+        android:stretchColumns="1">
+
+        <TableRow
+            android:id="@+id/Cabecera"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/ColumnaOro"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-light"
+                android:padding="5px"
+                android:text="GRAVEDAD"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/ColumnaBronce"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="3dp"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-light"
+                android:padding="4px"
+                android:text="CANTIDAD"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="14sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/SeparadorCabecera"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/LineaCabecera"
+                android:layout_width="fill_parent"
+                android:layout_height="2px"
+                android:layout_span="6"
+                android:background="@color/colorblack"></FrameLayout>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/Fila1"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/Cuidad1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:text="CON HERIDOS"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/Oro1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="13sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/Fila3"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/Cuidad3"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:text="CON MUERTOS"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/Oro3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="12"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="13sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/Fila4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:id="@+id/Cuidad4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:text="SOLO DAÑOS"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/Oro4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="13sp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/SeparadorTotales"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/LineaTotales"
+                android:layout_width="fill_parent"
+                android:layout_height="2px"
+                android:layout_span="5">
+
+            </FrameLayout>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/Totales"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/TextoTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_span="2"
+                android:gravity="right"
+                android:text="Total : 5"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/OroTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bordestabla"
+                android:gravity="center"
+                android:textColor="@color/color_FondoBlanco"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+
+        </TableRow>
+
+    </TableLayout>
+
+        <TableLayout
+            android:layout_marginTop="10dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#d8000000"
+            android:padding="5dp"
+            android:stretchColumns="1">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="5px"
+                    android:text="TIPO"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="3dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="4px"
+                    android:text="CANTIDAD"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="2px"
+                    android:layout_span="6"
+                    android:background="@color/colorblack"></FrameLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="CHOQUE"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="VOLCAMIENTO"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="INCENDIO"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+
+            </TableRow>
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="CAIDA OCUPANTE"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="ATROPELLO"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="2px"
+                    android:layout_span="5"></FrameLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_span="2"
+                    android:gravity="right"
+                    android:text="Total : 5"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="14sp"
+                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bordestabla"
+                    android:gravity="center"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:layout_marginTop="10dp"
+            android:visibility="visible"
+            android:id="@+id/tablaLugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#d8000000"
+            android:padding="5dp"
+            android:stretchColumns="1">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="5px"
+                    android:text="LUGAR"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="14sp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="3dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-light"
+                    android:padding="4px"
+                    android:text="CANTIDAD"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="2px"
+                    android:layout_span="6"
+                    android:background="@color/colorblack"></FrameLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="Cl. 21f #10 Este-30"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="13sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="Carrera 19 19 125 Av. Las Americas"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="Av. de los Estudiantes #3831"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="12sp" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="2px"
+                    android:layout_span="5"></FrameLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_span="2"
+                    android:gravity="right"
+                    android:text="Total : 5"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="14sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bordestabla"
+                    android:gravity="center"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+
+            </TableRow>
+
+        </TableLayout>
+
+    <LinearLayout
+        android:visibility="invisible"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <TextView
+                android:background="@drawable/fondo_edittxt"
+                android:layout_marginTop="5dp"
+                android:id="@+id/txt_longitud"
+                android:hint="txt_longitud"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:background="@drawable/fondo_edittxt"
+                android:layout_marginTop="5dp"
+                android:id="@+id/txt_latitud"
+                android:hint="txt_latitud"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
