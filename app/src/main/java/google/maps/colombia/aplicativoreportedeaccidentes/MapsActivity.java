@@ -4,14 +4,21 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -34,6 +41,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,17 +52,32 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
+import google.maps.colombia.aplicativoreportedeaccidentes.Adapters.CustomInfoWindowAdapter;
 import google.maps.colombia.aplicativoreportedeaccidentes.Models.Coordenadas;
+import google.maps.colombia.aplicativoreportedeaccidentes.Models.Reporte;
 import google.maps.colombia.aplicativoreportedeaccidentes.Request.DirectionsParser;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    /*************************SEARCH*********************/
+    private static final String TAG = "MapsActivity";
+    private static final float DEFAULT_ZOOM = 15f;
+    private EditText mSearchText;
+    /***************************************************/
 
+    FirebaseFirestore mFirestoreCont;
+
+    public int contadorreps = 0;
 
     private GoogleMap mMap;
     private static final int LOCATION_REQUEST = 500;
@@ -64,26 +87,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList<Marker> tmpRealTimeMarkers = new ArrayList<>();
     private ArrayList<Marker> realTimeMarkers = new ArrayList<>();
     private Switch aSwitch;
-    private Button btnregresaR;
-
-    /*DETALLE DEL ACCIDENTE*/
+    public static Button btnregresaR;
     private Marker marcador;
     private static final float camera_zoom = 15;
     ImageView imgmarker;
     private BottomSheetBehavior mBottomSheetBehavior1;
     LinearLayout tapactionlayout;
-    View white_forground_view;
     View bottomSheet;
+
     TextView txtnombre_local; // txt del tipo de accidente
     TextView txtGravedad; // txt de la gravedad accidente
     TextView txtHorario; // txt hora del accidente
     TextView txt_horarioFecha;// txt fecha accidente
     TextView txtDireccion;
+    TextView txt_contador;
+    Button btn_contador;
+    String contadorBase = "";
+
+    //probando aactualizar
+    Button btn_actualizar;
+    Reporte reporteSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -93,16 +122,94 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         aSwitch = findViewById(R.id.switchMap);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        btn_actualizar = findViewById(R.id.btn_actualizar_gravedad);
+
+        mFirestoreCont = FirebaseFirestore.getInstance();
+        //search
+        mSearchText = findViewById(R.id.input_search);
+
         listPoints = new ArrayList<>();
-        //cargarDetalle();
     }
+
+    private void init() {
+        Log.d(TAG, "init: initializing");
+
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    //execute our method for searching
+                    geoLocate();
+                }
+                return false;
+            }
+        });
+    }
+
+    private void geoLocate() {
+        Log.d(TAG, "geoLocate: geolocating");
+
+        String searchString = mSearchText.getText().toString();
+
+        Geocoder geocoder = new Geocoder(MapsActivity.this);
+        List<Address> list = new ArrayList<>();
+        try {
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch (IOException e) {
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+        }
+
+        if (list.size() > 0) {
+            Address address = list.get(0);
+
+            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM);
+
+
+            /*
+                if(mSearchText.getText().toString().equals("Cra. 10 Este #21-35, Pasto")){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("No hay reportes de accidente cercanos.");
+                builder.setTitle("INFORME DE CONSULTA");
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+             */
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("No hay reportes de accidente cercanos.");
+            builder.setTitle("INFORME DE CONSULTA");
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            /*AlertDialog.Builder window = new AlertDialog.Builder(this);
+            window.setMessage("Se encontro un reporte de accidente cercano.");
+            window.setTitle("INFORME DE CONSULTA");
+            AlertDialog dialog2 = window.create();
+            dialog2.show();*/
+
+
+
+        }
+    }
+
+    private void moveCamera(LatLng latLng, float zoom) {
+        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+        MarkerOptions options = new MarkerOptions().position(latLng);
+        mMap.addMarker(options);
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         UiSettings uiSettings = mMap.getUiSettings();
-        uiSettings.setZoomControlsEnabled(false);
+        uiSettings.setZoomControlsEnabled(true);
         uiSettings.setMyLocationButtonEnabled(true);
         btnregresaR = findViewById(R.id.btn_regresar);
 
@@ -118,36 +225,57 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMyLocationEnabled(true);
 
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(MapsActivity.this));
+
+        init();
+
         mDatabase.child("coordenadas").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (Marker marker:realTimeMarkers){
+                for (Marker marker : realTimeMarkers) {
                     marker.remove();
                 }
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Coordenadas coor = snapshot.getValue(Coordenadas.class);
                     Double latitud = coor.getLatitud();
                     Double longitud = coor.getLongitud();
                     String tipo_accidente = "";
-                    String tipo_gravedad= "";
-                    String tipo_factor="";
+                    String tipo_gravedad = "";
+                    String tipo_factor = "";
+                    String fecha = "";
+                    String direccion = "";
+                    String hora = "";
+
                     if (snapshot.hasChild("tipo_accidente")) {
                         tipo_accidente = snapshot.child("tipo_accidente").getValue().toString();
                     }
                     if (snapshot.hasChild("gravedad_accidente")) {
                         tipo_gravedad = snapshot.child("gravedad_accidente").getValue().toString();
                     }
-                    if (snapshot.hasChild("factor_accidente")){
+                    if (snapshot.hasChild("factor_accidente")) {
                         tipo_factor = snapshot.child("factor_accidente").getValue().toString();
-
                     }
+                    if (snapshot.hasChild("contador")) {
+                        contadorBase = snapshot.child("contador").getValue().toString();
+                    }
+                    if (snapshot.hasChild("fecha_accidente")) {
+                        fecha = snapshot.child("fecha_accidente").getValue().toString();
+                    }
+                    if (snapshot.hasChild("hora_accidente")) {
+                        hora = snapshot.child("hora_accidente").getValue().toString();
+                    }
+                    if (snapshot.hasChild("direccion_accidente")) {
+                        direccion = snapshot.child("direccion_accidente").getValue().toString();
+                    }
+
                     MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(new LatLng(latitud,longitud));
+                    markerOptions.position(new LatLng(latitud, longitud));
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.sirena64));
                     markerOptions.title("REPORTE DE ACCIDENTE");
-                    markerOptions.snippet("Tipo: " + tipo_accidente + " Gravedad: " + tipo_gravedad);
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitud,longitud))
+                    markerOptions.snippet("Tipo: " + tipo_accidente + " Gravedad: " + tipo_gravedad   + " Factor : " + tipo_factor + " Fecha: " + fecha + " Hora: " + hora + " Dirección: " + direccion);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target(new LatLng(latitud, longitud))
                             .zoom(13)
                             .bearing(90)
                             .build();
@@ -160,12 +288,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 cargarDetalle();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
 
 
         //Metodo para trazar ruta
@@ -186,6 +314,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                 } else {
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
                 }
                 mMap.addMarker(markerOptions);
 
@@ -200,39 +329,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private String getRequestUrl(LatLng origin, LatLng dest) {
 
-        String str_org = "origin=" + origin.latitude +","+origin.longitude;
+        String str_org = "origin=" + origin.latitude + "," + origin.longitude;
 
-        String str_dest = "destination=" + dest.latitude+","+dest.longitude;
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
 
         String sensor = "sensor=false";
 
         String mode = "mode=driving";
 
-        String param = str_org +"&" + str_dest + "&" +sensor+"&" +mode;
+        String param = str_org + "&" + str_dest + "&" + sensor + "&" + mode;
 
         String output = "json";
 
-
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + param;
-        return  url;
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + param + "&key=" + getString(R.string.google_maps_key);
+        return url;
 
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
+        switch (requestCode) {
             case LOCATION_REQUEST:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
                     mMap.setMyLocationEnabled(true);
                 }
                 break;
-
         }
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-
 
     private String requestDirection(String reqUrl) throws IOException {
         String responseString = "";
@@ -268,8 +402,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return responseString;
     }
-
-
 
     public class TaskRequestDirections extends AsyncTask<String, Void, String>{
 
@@ -341,8 +473,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
-
     public void MapaSwitch(View view) {
         if (view.getId()==R.id.switchMap){
             if (aSwitch.isChecked()){
@@ -356,7 +486,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void btn_regresar_map(View view) {
         Intent intentInvitado = new Intent(MapsActivity.this, ReportarActivity.class);
         MapsActivity.this.startActivity(intentInvitado);
-
+        finish();
     }
 
     public void cargarDetalle(){
@@ -368,11 +498,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         txtDireccion = findViewById(R.id.txt_direccion);
         txt_horarioFecha = findViewById(R.id.txt_horarioFecha);
         tapactionlayout = findViewById(R.id.tap_action_layout);
+
+        btn_contador = findViewById(R.id.btn_cont_accidentes);
+        txt_contador = findViewById(R.id.txt_contador_rep);
+
         bottomSheet = findViewById(R.id.bottomJsoft);
         mBottomSheetBehavior1 = BottomSheetBehavior.from(bottomSheet);
         mBottomSheetBehavior1.setPeekHeight(120);
         mBottomSheetBehavior1.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
+
+        txt_contador.setText("2");
+
+        btn_contador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //contadorreps = contadorreps + 1;
+
+
+//              String contadorRep = txt_contador.getText().toString();
+
+                int contador = 1;
+
+                txt_contador.setText("3");
+               // txt_contador.setText(contadorreps +1);
+
+                //Map<String, Object> cont = new HashMap<>();
+                //cont.put("contador", contadorreps );
+
+              //  mFirestoreCont.collection("Contador").document().set(cont);
+
+
+            }
+        });
 
         mBottomSheetBehavior1.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -402,7 +561,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-
         /* -------------------------------- PRUEBA CARGAR DATOS EN DETALLE ------------------------------------------------------ */
 
         mDatabase.child("coordenadas").addValueEventListener(new ValueEventListener() {
@@ -423,7 +581,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-
 
         mDatabase.child("coordenadas").addValueEventListener(new ValueEventListener() {
             @Override
@@ -485,4 +642,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
 }
