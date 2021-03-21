@@ -58,7 +58,7 @@
         android:layout_height="40dp"
         android:onClick="onClickCargarOpcion"
         android:fontFamily="sans-serif-condensed-light"
-        android:text="ACTUALIZAR ESTADÍSTICAS"/>
+        android:text="ULTIMO CAMBIO ESTADÍSTICAS"/>
 
     <Button
         android:layout_marginTop="10dp"
