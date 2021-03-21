@@ -2,7 +2,7 @@
 <android.support.v4.widget.NestedScrollView
     android:id="@+id/bottom_sheet1"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="220dp"
     android:clipToPadding="true"
     android:background="@android:color/white"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
@@ -29,31 +29,22 @@
                 android:text="Toca para ver información del accidente"
                 />
         </LinearLayout>
+
         <LinearLayout
             android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:textColor="@android:color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="20sp"
                 android:fontFamily="sans-serif-condensed-light"
-                android:text="INFORMACIÓN DEL ÚLTIMO ACCIDENTE"
+                android:text="REGISTROS DE ESTE ACCIDENTE"
                 android:layout_gravity="center_horizontal"
                 android:textStyle="bold"/>
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/logo_alert"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                app:lottie_imageAssetsFolder="assets"
-                app:lottie_fileName="location-map.json"
-                app:lottie_loop="true"
-                android:layout_centerHorizontal="true"
-                app:lottie_autoPlay="true" />
 
             <ImageView
                 android:visibility="gone"
@@ -62,7 +53,9 @@
                 android:background="@drawable/atropello"
                 android:layout_height="130dp"
                 android:scaleType="centerCrop" />
+
             <TextView
+                android:visibility="gone"
                 android:id="@+id/txtNombreLocal"
                 android:textColor="@android:color/black"
                 android:layout_marginLeft="10dp"
@@ -73,107 +66,198 @@
                 android:text=""
                 android:textSize="16dp"
                 android:textStyle="bold"/>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:textColor="@android:color/black"
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gravedad"
-                android:fontFamily="sans-serif-condensed-light"
-                android:textStyle="bold"/>
-            <TextView
-                android:id="@+id/txt_gravedad"
-                android:textColor="@android:color/black"
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:fontFamily="sans-serif-condensed-light"
-                android:text="gravedad_accidente"
-                />
+
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_weight="4.5"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <TextView
-                android:textColor="@android:color/black"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hora y Fecha"
-                android:fontFamily="sans-serif-condensed-light"
-                android:textStyle="bold"/>
+
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
                 <TextView
-                    android:id="@+id/txt_horarioFecha"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="fecha_acc"
-                    android:textSize="17sp"
-                    android:fontFamily="sans-serif-condensed-light"
-                    />
-                <TextView
-                    android:id="@+id/txtHorario"
-                    android:textColor="@android:color/black"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="hora_acc"
-                    android:textSize="17sp"
+                    android:text="Gravedad"
                     android:fontFamily="sans-serif-condensed-light"
-                    android:layout_marginBottom="10dp"
-                    />
+                    android:textStyle="bold"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/txt_gravedad"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:text="gravedad_accidente"
+                        />
+
+                    <Button
+
+                        android:id="@+id/btn_actualizar_gravedad"
+                        android:visibility="gone"
+                        android:layout_marginLeft="20dp"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="Actualizar"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hora y Fecha"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textStyle="bold"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/txt_horarioFecha"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="fecha_acc"
+                        android:textSize="17sp"
+                        android:fontFamily="sans-serif-condensed-light"
+                        />
+                    <TextView
+                        android:id="@+id/txtHorario"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="hora_acc"
+                        android:textSize="17sp"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:layout_marginBottom="10dp"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dirección"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textStyle="bold"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/txt_direccion"
+                        android:textColor="@android:color/black"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="dir_acc"
+                        android:textSize="17sp"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:layout_marginBottom="10dp"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:textColor="@android:color/black"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dirección"
-                android:fontFamily="sans-serif-condensed-light"
-                android:textStyle="bold"/>
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_weight="4"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/txt_direccion"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorblack"
+                    android:textSize="19sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:text="Yo también presencié este accidente"/>
+
+                <Button
+                    android:id="@+id/btn_cont_accidentes"
+                    android:layout_marginTop="10dp"
+                    android:textColorLink="@color/colorAccent"
+                    android:foreground="@drawable/icons8_check_all_48"
+                    android:layout_gravity="center"
+                    android:background="@color/color_Gris"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp" />
+
+
+                <TextView
                     android:textColor="@android:color/black"
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="dir_acc"
+                    android:layout_gravity="center"
+                    android:text="Cantidad: "
+                    android:textStyle="bold"
                     android:textSize="17sp"
                     android:fontFamily="sans-serif-condensed-light"
-                    android:layout_marginBottom="10dp"
-                    />
+                    android:layout_marginBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/txt_contador_rep"
+                    android:textColor="@android:color/black"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text=""
+                    android:textStyle="bold"
+                    android:textSize="17sp"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:layout_marginBottom="10dp"/>
+
             </LinearLayout>
 
         </LinearLayout>

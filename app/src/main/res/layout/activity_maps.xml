@@ -50,6 +50,7 @@
             android:textSize="20sp"
             android:paddingStart="5dp" />
 
+
         <Switch
             android:id="@+id/switchMap"
             android:onClick="MapaSwitch"
@@ -61,7 +62,44 @@
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/txt_tipomap" />
 
+        <RelativeLayout
+            android:layout_below="@id/switchMap"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="17dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:elevation="10dp"
+            android:background="@drawable/fon_sin_bordes"
+            android:id="@+id/relLayout1">
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:id="@+id/ic_magnify"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/icon_help"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/ic_magnify"
+                android:layout_centerVertical="true"
+                android:textSize="17sp"
+                android:textColor="#000"
+                android:id="@+id/input_search"
+                android:paddingLeft="10dp"
+                android:background="@null"
+                android:hint="Ingresa dirección o codigo ZIP"
+                android:imeOptions="actionSearch"/>
+
+
+        </RelativeLayout>
+
+
         <Button
+            android:visibility="invisible"
             android:id="@+id/btn_regresar"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
@@ -76,8 +114,8 @@
 
     </RelativeLayout>
 
-
     <include
+        android:visibility="visible"
         android:id="@+id/bottomJsoft"
         layout="@layout/bottomsheet_layout">
     </include>

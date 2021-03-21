@@ -11,7 +11,7 @@
     tools:context=".Estadisticas">
 
     <TextView
-        android:text="INFORME DE ESTADISTICAS"
+        android:text="INFORME DE ESTADÍSTICAS"
         android:textColor="@color/color_FondoBlanco"
         android:textSize="20sp"
         android:fontFamily="sans-serif-condensed-light"
@@ -19,30 +19,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
-            android:layout_marginTop="20sp"
-            android:id="@+id/btn_generarestadisticas"
-            android:layout_gravity="center_horizontal"
-            android:padding="5dp"
-            android:background="@drawable/fondo_boton"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:fontFamily="sans-serif-condensed-light"
-            android:text="GENERAR ESTADISTICAS"/>
-
-    <RelativeLayout
-        android:visibility="visible"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/txv_reportep"
-        android:textColor="@color/color_FondoBlanco"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Generar reporte por: "
-        android:fontFamily="sans-serif-condensed-light"
-        android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/txv_reportep"
+            android:textColor="@color/color_FondoBlanco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Generar reporte por: "
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="20sp"/>
 
         <Spinner
             android:layout_toRightOf="@id/txv_reportep"
@@ -55,7 +45,344 @@
             android:popupBackground="@color/color_FondoBlanco"
             android:background="@color/color_FondoBlanco">
         </Spinner>
-    </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:visibility="gone"
+        android:layout_marginTop="10dp"
+        android:id="@+id/btn_generarestadisticas"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:background="@drawable/fondo_boton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:onClick="onClickCargarOpcion"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="ACTUALIZAR ESTADÍSTICAS"/>
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/btn_cargar_view"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:background="@drawable/fondo_boton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:onClick="onclicCargarVista"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="CONSULTAR ESTADÍSTICAS"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    //Scroll que contiene el Recycler lugar
+    <ScrollView
+        android:id="@+id/scroll_RecyclerView"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/color_FondoBlanco"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+                <TextView
+                    android:layout_marginLeft="2dp"
+                    android:textAlignment="center"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:shadowColor="@color/colorPrimaryDark"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:text="Dirección"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+                <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:text="Cantidad" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/color_FondoBlanco"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerDatosFirestore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/color_FondoBlanco"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+    /****/
+
+    //Scroll que contiene el Recycler Tipo
+    <ScrollView
+        android:id="@+id/scroll_Rv_Tipo"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_marginLeft="2dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/color_FondoBlanco"/>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+                <TextView
+                    android:layout_marginLeft="2dp"
+                    android:textAlignment="center"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:shadowColor="@color/colorPrimaryDark"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:text="Tipo"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+                <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:text="Cantidad" />
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/color_FondoBlanco"/>
+
+
+            <View
+                android:layout_width="2px"
+                android:layout_height="match_parent"
+                android:background="@color/color_FondoBlanco"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerTipoFirestore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/color_FondoBlanco"/>
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textAlignment="center"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:shadowColor="@color/colorPrimaryDark"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:text="Total accidentes por Gravedad: "/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+                <TextView
+                    android:id="@+id/txt_total_gravedad"
+                    android:textSize="15sp"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:text="ngravedad" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+    /****/
+
+    //Scroll que contiene el Recycler Gravedad
+    <ScrollView
+        android:id="@+id/scroll_RV_Gravedad"
+        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/color_FondoBlanco"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+                <TextView
+                    android:layout_marginLeft="2dp"
+                    android:textAlignment="center"
+                    android:layout_width="290dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:shadowColor="@color/colorPrimaryDark"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:text="Gravedad"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+                <TextView
+                    android:textSize="15sp"
+                    android:textColor="@color/color_FondoBlanco"
+                    android:textAlignment="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:text="Cantidad" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_FondoBlanco">
+                </View>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/color_FondoBlanco"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerGravedadFirestore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/color_FondoBlanco"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+    /****/
+
+
+    </LinearLayout>
+    </ScrollView>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -64,574 +391,647 @@
     <LinearLayout
         android:id="@+id/LinearCotenedor"
         android:orientation="vertical"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TableLayout
-        android:visibility="visible"
-        android:id="@+id/TablaGravedad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#d8000000"
-        android:padding="5dp"
-        android:stretchColumns="1">
 
-        <TableRow
-            android:id="@+id/Cabecera"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-
-            <TextView
-                android:id="@+id/ColumnaOro"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="sans-serif-light"
-                android:padding="5px"
-                android:text="GRAVEDAD"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="14sp" />
-
-
-            <TextView
-                android:id="@+id/ColumnaBronce"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="3dp"
-                android:layout_gravity="center"
-                android:fontFamily="sans-serif-light"
-                android:padding="4px"
-                android:text="CANTIDAD"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="14sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/SeparadorCabecera"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <FrameLayout
-                android:id="@+id/LineaCabecera"
-                android:layout_width="fill_parent"
-                android:layout_height="2px"
-                android:layout_span="6"
-                android:background="@color/colorblack"></FrameLayout>
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/Fila1"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent">
-
-
-            <TextView
-                android:id="@+id/Cuidad1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="left"
-                android:text="CON HERIDOS"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/Oro1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="3"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="13sp" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/Fila3"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent">
-
-
-            <TextView
-                android:id="@+id/Cuidad3"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:gravity="left"
-                android:text="CON MUERTOS"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/Oro3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="12"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="13sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/Fila4"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-
-            <TextView
-                android:id="@+id/Cuidad4"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="left"
-                android:text="SOLO DAÑOS"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/Oro4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="10"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="13sp" />
-
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/SeparadorTotales"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <FrameLayout
-                android:id="@+id/LineaTotales"
-                android:layout_width="fill_parent"
-                android:layout_height="2px"
-                android:layout_span="5">
-
-            </FrameLayout>
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/Totales"
+        <LinearLayout
+            android:id="@+id/linearGravedad"
+            android:orientation="vertical"
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/TextoTotal"
-                android:layout_width="wrap_content"
+            <TableLayout
+                android:visibility="visible"
+                android:id="@+id/TablaGravedad"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_span="2"
-                android:gravity="right"
-                android:text="Total : 5"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="14sp" />
+                android:background="#d8000000"
+                android:padding="5dp"
+                android:stretchColumns="1">
 
-            <TextView
-                android:id="@+id/OroTotal"
-                android:layout_width="wrap_content"
+                <TableRow
+                    android:id="@+id/Cabecera"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/ColumnaOro"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-light"
+                        android:padding="5px"
+                        android:text="GRAVEDAD"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="14sp" />
+
+
+                    <TextView
+                        android:id="@+id/ColumnaBronce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-light"
+                        android:padding="4px"
+                        android:text="CANTIDAD"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/SeparadorCabecera"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:id="@+id/LineaCabecera"
+                        android:layout_width="fill_parent"
+                        android:layout_height="2px"
+                        android:layout_span="6"
+                        android:background="@color/colorblack"></FrameLayout>
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/Fila1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:id="@+id/Cuidad1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="CON HERIDOS"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/txt_heridos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/Fila3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:id="@+id/Cuidad3"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="CON MUERTOS"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/Oro3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/Fila4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/Cuidad4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="SOLO DAÑOS"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/Oro4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/SeparadorTotales"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:id="@+id/LineaTotales"
+                        android:layout_width="fill_parent"
+                        android:layout_height="2px"
+                        android:layout_span="5">
+
+                    </FrameLayout>
+                </TableRow>
+
+                <TableRow
+                    android:visibility="gone"
+                    android:id="@+id/Totales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/TextoTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_span="2"
+                        android:gravity="right"
+                        android:text="Total : 5"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/OroTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bordestabla"
+                        android:gravity="center"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+
+                </TableRow>
+
+            </TableLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearTipo"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TableLayout
+                android:layout_marginTop="10dp"
+                android:visibility="visible"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bordestabla"
-                android:gravity="center"
-                android:textColor="@color/color_FondoBlanco"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:background="#d8000000"
+                android:padding="5dp"
+                android:stretchColumns="1">
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
 
 
-        </TableRow>
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-light"
+                        android:padding="5px"
+                        android:text="TIPO"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="14sp" />
 
-    </TableLayout>
 
-        <TableLayout
-            android:layout_marginTop="10dp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-light"
+                        android:padding="4px"
+                        android:text="CANTIDAD"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="14sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="2px"
+                        android:layout_span="6"
+                        android:background="@color/colorblack"></FrameLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="CHOQUE"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="VOLCAMIENTO"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="INCENDIO"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                </TableRow>
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="CAIDA OCUPANTE"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="ATROPELLO"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="2px"
+                        android:layout_span="5"></FrameLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_span="2"
+                        android:gravity="right"
+                        android:text="Total : 5"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="14sp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bordestabla"
+                        android:gravity="center"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLugar"
+            android:orientation="vertical"
             android:visibility="visible"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#d8000000"
-            android:padding="5dp"
-            android:stretchColumns="1">
+            android:layout_height="wrap_content">
 
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-light"
-                    android:padding="5px"
-                    android:text="TIPO"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="14sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="3dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-light"
-                    android:padding="4px"
-                    android:text="CANTIDAD"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="14sp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="2px"
-                    android:layout_span="6"
-                    android:background="@color/colorblack"></FrameLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="left"
-                    android:text="CHOQUE"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="2"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent">
-
-
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left"
-                    android:text="VOLCAMIENTO"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent">
-
-
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left"
-                    android:text="INCENDIO"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-
-            </TableRow>
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent">
-
-
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left"
-                    android:text="CAIDA OCUPANTE"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="left"
-                    android:text="ATROPELLO"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="2"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="2px"
-                    android:layout_span="5"></FrameLayout>
-            </TableRow>
-
-            <TableRow
+            <TableLayout
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:id="@+id/tablaLugar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:background="#d8000000"
+                android:padding="5dp"
+                android:stretchColumns="1">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_span="2"
-                    android:gravity="right"
-                    android:text="Total : 5"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="14sp"
-                     />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bordestabla"
-                    android:gravity="center"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-
-            </TableRow>
-
-        </TableLayout>
-
-        <TableLayout
-            android:layout_marginTop="10dp"
-            android:visibility="visible"
-            android:id="@+id/tablaLugar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#d8000000"
-            android:padding="5dp"
-            android:stretchColumns="1">
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-light"
-                    android:padding="5px"
-                    android:text="LUGAR"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="14sp" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="3dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-light"
-                    android:padding="4px"
-                    android:text="CANTIDAD"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="14sp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <FrameLayout
+                <TableRow
                     android:layout_width="fill_parent"
-                    android:layout_height="2px"
-                    android:layout_span="6"
-                    android:background="@color/colorblack"></FrameLayout>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="left"
-                    android:text="Cl. 21f #10 Este-30"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="13sp" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-light"
+                        android:padding="5px"
+                        android:text="LUGAR"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="14sp" />
 
 
-                <TextView
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left"
-                    android:text="Carrera 19 19 125 Av. Las Americas"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="3dp"
+                        android:layout_gravity="center"
+                        android:fontFamily="sans-serif-light"
+                        android:padding="4px"
+                        android:text="CANTIDAD"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="14sp" />
+                </TableRow>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="12sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="left"
-                    android:text="Av. de los Estudiantes #3831"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="12sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <FrameLayout
+                <TableRow
                     android:layout_width="fill_parent"
-                    android:layout_height="2px"
-                    android:layout_span="5"></FrameLayout>
-            </TableRow>
+                    android:layout_height="wrap_content">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="2px"
+                        android:layout_span="6"
+                        android:background="@color/colorblack"></FrameLayout>
+                </TableRow>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="Cl. 21f #10 Este-30"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="13sp" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="Carrera 19 19 125 Av. Las Americas"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/txt_direccionFirestore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="Cl. 21f #10 Este-30, Pasto, Nariño, Colombia"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="a 19-81, Cra. 35A #19-1"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text="Carrera 31 ##16-18"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <TextView
+                        android:id="@+id/id_lugar_direc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left"
+                        android:text=""
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/id_lugar_ultimo"
+                        android:visibility="invisible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="12sp" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <FrameLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="2px"
+                        android:layout_span="5"></FrameLayout>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_span="2"
-                    android:gravity="right"
-                    android:text="Total : 5"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="14sp"
-                    />
+                    android:visibility="gone"
+                    >
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bordestabla"
-                    android:gravity="center"
-                    android:textColor="@color/color_FondoBlanco"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_span="2"
+                        android:gravity="right"
+                        android:text="Total : 5"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="14sp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bordestabla"
+                        android:gravity="center"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
 
-            </TableRow>
+                </TableRow>
 
-        </TableLayout>
+            </TableLayout>
 
-    <LinearLayout
-        android:visibility="invisible"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-            <TextView
-                android:background="@drawable/fondo_edittxt"
-                android:layout_marginTop="5dp"
-                android:id="@+id/txt_longitud"
-                android:hint="txt_longitud"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:background="@drawable/fondo_edittxt"
-                android:layout_marginTop="5dp"
-                android:id="@+id/txt_latitud"
-                android:hint="txt_latitud"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-    </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

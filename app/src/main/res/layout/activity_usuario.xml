@@ -8,6 +8,10 @@
     android:orientation="vertical"
     tools:context=".UsuarioActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
@@ -15,82 +19,108 @@
         android:orientation="vertical">
 
         <ImageView
-            android:background="@drawable/logooficial"
-            android:layout_marginTop="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="200dp"
-            android:layout_height="200dp" />
-
-        <TextView
-            android:layout_marginTop="60dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Daniel Grijalba"
-            android:textStyle="bold"
-            android:textSize="25sp"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="daniel@gmail.com"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"/>
-
-
-        <TextView
+            android:background="@drawable/unnamed"
             android:layout_marginTop="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="David Rodriguez"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:layout_gravity="center_horizontal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="davo@gmail.com"
-            android:textSize="20sp"
-            android:layout_gravity="center_horizontal"/>
-
-
-
-        <ImageView
-            android:layout_marginTop="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
+            android:layout_width="80dp"
+            android:layout_height="80dp" />
         <TextView
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="FACULTAD DE INGENIERÍA"
-            android:textSize="20sp"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-condensed-light"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:layout_gravity="center_horizontal" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="INGENIERÍA DE SISTEMAS"
-            android:textSize="20sp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="18sp"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:layout_gravity="center_horizontal" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="UNIVERSIDAD CESMAG"
-            android:textSize="20sp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="18sp"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"/>
+
+        <ImageView
+            android:background="@drawable/logooficial"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+
+        <TextView
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daniel Grijalba Rosero"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-condensed-light"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:layout_gravity="center_horizontal" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="yedagri@gmail.com"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="18sp"
+
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3138612219"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"/>
+
+
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="David Rodríguez Pinta"
+            android:fontFamily="sans-serif-condensed-light"
+
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="davo.rodriguez.7@gmail.com"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3206454986"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"/>
+
+
+
+
+
+
     </LinearLayout>
 
-
+    </ScrollView>
 
 
 </LinearLayout>

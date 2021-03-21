@@ -18,9 +18,10 @@
         android:roundIcon="@mipmap/ic_laucher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".InvitadoActivity"></activity>
         <activity
             android:name=".NavegacionActivity"
-            android:label="@string/title_activity_navegacion"></activity>
+            android:label="@string/title_activity_navegacion" />
         <activity android:name=".PruebaActivity" />
         <activity android:name=".TrazarRutaActivity" />
         <activity android:name=".AnimacionActivity">
@@ -31,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DatosActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".UsuarioActivity" />
         <activity android:name=".MenuActivity" />

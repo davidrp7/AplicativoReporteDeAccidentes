@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 
-</android.support.constraint.ConstraintLayout>
+    android:background="@drawable/fon_sin_bordes"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_gravedad_ventana"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/txt_snippet_ventana"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/txt_contador_venta"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textSize="20sp"
+            android:textColor="@color/colorblack"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btn_contar_reporte"
+            android:layout_gravity="center_horizontal"
+            android:text="CONTAR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

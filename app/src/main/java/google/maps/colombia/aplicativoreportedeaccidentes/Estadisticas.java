@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,40 +14,81 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import google.maps.colombia.aplicativoreportedeaccidentes.Adapters.AdapterFirestore;
+import google.maps.colombia.aplicativoreportedeaccidentes.Adapters.AdapterGravedadFirestore;
+import google.maps.colombia.aplicativoreportedeaccidentes.Adapters.AdapterTipoFirestore;
+import google.maps.colombia.aplicativoreportedeaccidentes.Models.Opciones;
+import google.maps.colombia.aplicativoreportedeaccidentes.Models.ReporteFire;
 import google.maps.colombia.aplicativoreportedeaccidentes.Models.Tabla;
+import google.maps.colombia.aplicativoreportedeaccidentes.Models.Tipo;
 
 public class Estadisticas extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private TextView tvDetalle, tvLatitud, tvLongitud, tvFecha, tvHora, tvTexto, tvUsuario, btn_Estadisticas;
-    private DatabaseReference databaseReference;
     private ProgressDialog progressDialog;
+    DatabaseReference mDatabase;
+    FirebaseFirestore db;
     LinearLayout LinearCotenedor;
-    public Spinner spinner;
-    public String[] reporteAcc = {" ", "GRAVEDAD", "TIPO", "LUGAR", "TODO"};
+    LinearLayout linerGravedad;
+    LinearLayout linerTipo;
+    LinearLayout linerLugar;
+    public Spinner spinnerOpciones;
+    String opcionesReporte="";
+    TextView txt_heridos;
+    TextView txt_direccionFirestore;
+    TextView txt_posicion_ultima;
+    ScrollView scrollViewRecycler, scrollViewRecyckerTipo, scrollViewRecyclerGravedad;
 
+    /********************  cargar datos a recycler  ******************/
+    private RecyclerView rvReportes;
+    private RecyclerView rvReportesTipo;
+    private RecyclerView rvReportesGravedad;
+    AdapterFirestore mAdapter;
+    AdapterTipoFirestore mAdapterTipo;
+    AdapterGravedadFirestore mAdapterGravedad;
+    FirebaseFirestore firebaseFirestore;
+
+    /*****************************************************************/
 
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -58,50 +100,113 @@ public class Estadisticas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estadisticas);
 
-        spinner = findViewById(R.id.spinnerReporte);
-        tvLatitud = findViewById(R.id.txt_latitud);
-        btn_Estadisticas = findViewById(R.id.btn_generarestadisticas);
-        tvLongitud = findViewById(R.id.txt_longitud);
+        txt_heridos = findViewById(R.id.txt_heridos);
+
+        db = FirebaseFirestore.getInstance();
+
+        spinnerOpciones = findViewById(R.id.spinnerReporte);
         LinearCotenedor = findViewById(R.id.LinearCotenedor);
-        tvDetalle = findViewById(R.id.txt_direccion);
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        linerGravedad = findViewById(R.id.linearGravedad);
+        linerTipo = findViewById(R.id.linearTipo);
+        linerLugar = findViewById(R.id.linearLugar);
         progressDialog = new ProgressDialog(this);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        txt_direccionFirestore = findViewById(R.id.id_lugar_direc);
+        txt_posicion_ultima = findViewById(R.id.id_lugar_ultimo);
+
+        scrollViewRecycler = findViewById(R.id.scroll_RecyclerView);
+        scrollViewRecyckerTipo = findViewById(R.id.scroll_Rv_Tipo);
+        scrollViewRecyclerGravedad = findViewById(R.id.scroll_RV_Gravedad);
+        loadDataSpinner();
 
 
-        //locationStart();
-        loadDataOpciones();
+        /********************  cargar datos a recycler  ******************/
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        rvReportes = findViewById(R.id.recyclerDatosFirestore);
+        rvReportes.setLayoutManager(new LinearLayoutManager(this));
+        Query query = firebaseFirestore.collection("Reportes");
+        FirestoreRecyclerOptions<ReporteFire> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<ReporteFire>().setQuery(query, ReporteFire.class).build();
+        mAdapter = new AdapterFirestore(firestoreRecyclerOptions);
+        mAdapter.notifyDataSetChanged();
+        rvReportes.setAdapter(mAdapter);
 
-        btn_Estadisticas.setOnClickListener(new View.OnClickListener() {
+
+        rvReportesTipo= findViewById(R.id.recyclerTipoFirestore);
+        rvReportesTipo.setLayoutManager(new LinearLayoutManager(this));
+        Query queryTipo = firebaseFirestore.collection("Reportes");
+        FirestoreRecyclerOptions<ReporteFire> firestoreRecyclerOptionsTipo = new FirestoreRecyclerOptions.Builder<ReporteFire>().setQuery(queryTipo, ReporteFire.class).build();
+        mAdapterTipo = new AdapterTipoFirestore(firestoreRecyclerOptionsTipo);
+        mAdapterTipo.notifyDataSetChanged();
+        rvReportesTipo.setAdapter(mAdapterTipo);
+
+
+        rvReportesGravedad = findViewById(R.id.recyclerGravedadFirestore);
+        rvReportesGravedad.setLayoutManager(new LinearLayoutManager(this));
+        Query queryGravedad = firebaseFirestore.collection("Reportes");
+        FirestoreRecyclerOptions<ReporteFire> firestoreRecyclerOptionsGravedad = new FirestoreRecyclerOptions.Builder<ReporteFire>().setQuery(queryGravedad, ReporteFire.class).build();
+        mAdapterGravedad = new AdapterGravedadFirestore(firestoreRecyclerOptionsGravedad);
+        rvReportesGravedad.setAdapter(mAdapterGravedad);
+        /*****************************************************************/
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void leerDatoFirestore (){
+        DocumentReference report = db.collection("Reportes").document("zL5LVjTlpwUt73z6jZu9");
+        report.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View view) {
-                progressDialog.setMessage("Cargando datos");
-                progressDialog.show();
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot doc = task.getResult();
+                    StringBuilder data = new StringBuilder("");
+                    data.append(doc.getString("direccion"));
+                    txt_direccionFirestore.setText(data.toString());
+                }
+            }
+        });
+    }
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        LinearCotenedor.setVisibility(View.VISIBLE);
-                        progressDialog.dismiss();
+    public void loadDataSpinner(){
+
+        final List<Opciones> opciones = new ArrayList<>();
+        mDatabase.child("opciones").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot ds: dataSnapshot.getChildren()){
+                        if (ds.hasChild("nombre_opcion")) {
+                            String opcionName = ds.child("nombre_opcion").getValue().toString();
+                            opciones.add(new Opciones(opcionName));
+                        }
                     }
-
-                }, 6000);
+                    ArrayAdapter<Opciones> arrayAdapter = new ArrayAdapter<Opciones>(Estadisticas.this, android.R.layout.simple_dropdown_item_1line, opciones);
+                    spinnerOpciones.setAdapter(arrayAdapter);
+                    spinnerOpciones.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
+                            ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                            opcionesReporte = parent.getItemAtPosition(i).toString();
+                            if (opcionesReporte != parent.getItemAtPosition(0).toString()){
+                                Toast.makeText(Estadisticas.this, "Has seleccionado: " + opcionesReporte , Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
 
-        String[] reportes = {" ", "GRAVEDAD", "TIPO", "LUGAR", "VER TODO"};
-
-
-
-        spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, reporteAcc));
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
-    public void loadDataOpciones(){
+    public void onClickCargarOpcion(View view) {
 
-        if (spinner.equals("GRAVEDAD")){
+        if (opcionesReporte.equals("GRAVEDAD")){
             progressDialog.setMessage("Cargando datos");
             progressDialog.show();
 
@@ -109,109 +214,170 @@ public class Estadisticas extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    LinearCotenedor.setVisibility(View.VISIBLE);
+                    linerGravedad.setVisibility(View.VISIBLE);
+                    linerLugar.setVisibility(View.GONE);
+                    linerTipo.setVisibility(View.GONE);
                     progressDialog.dismiss();
                 }
 
-            }, 6000);
-        }
-    }
+            }, 3000);
 
-    /*
-    private void locationStart() {
-        LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Localizacion Local = new Localizacion();
-        Local.setMainActivity(this);
-        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        if (!gpsEnabled) {
-            Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(settingsIntent);
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
-            return;
-        }
-        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) Local);
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) Local);
-    }
+        } else  if (opcionesReporte.equals("TIPO")){
 
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 1000) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                locationStart();
-                return;
-            }
-        }
-    }
+            progressDialog.setMessage("Cargando datos");
+            progressDialog.show();
 
-    public void setLocation(Location location){
-        if (location.getLatitude() != 0.0 && location.getLongitude() != 0.0) {
-            try {
-                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                List<Address> list = geocoder.getFromLocation(
-                        location.getLatitude(), location.getLongitude(), 1);
-                if (!list.isEmpty()) {
-                    Address DirCalle = list.get(0);
-                    tvDetalle.setText(DirCalle.getAddressLine(0));
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    linerTipo.setVisibility(View.VISIBLE);
+                    linerGravedad.setVisibility(View.GONE);
+                    linerLugar.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            }, 3000);
+
+        } else  if (opcionesReporte.equals("LUGAR")){
+
+            leerDatoFirestore();
+            txt_posicion_ultima.setVisibility(View.VISIBLE);
+            progressDialog.setMessage("Cargando datos");
+            progressDialog.show();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    linerLugar.setVisibility(View.VISIBLE);
+                    linerGravedad.setVisibility(View.GONE);
+                    linerTipo.setVisibility(View.GONE);
+                    progressDialog.dismiss();
+                }
+
+            }, 3000);
+
+        } else  if (opcionesReporte.equals("VER TODO")){
+            progressDialog.setMessage("Cargando datos");
+            progressDialog.show();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    linerLugar.setVisibility(View.VISIBLE);
+                    linerGravedad.setVisibility(View.VISIBLE);
+                    linerTipo.setVisibility(View.VISIBLE);
+                    progressDialog.dismiss();
+                }
+
+            }, 5000);
+
+        }
+        else if (opcionesReporte.equals(" ")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Debe seleccionar alguna opción para generar estadísticas");
+            builder.setTitle("(?)");
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
 
-    public class Localizacion implements LocationListener {
 
-        Estadisticas estadisticas;
+    /********************  cargar datos a recycler  ******************/
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+        mAdapterTipo.startListening();
+        mAdapterGravedad.startListening();
+    }
 
-        public Estadisticas getEstadisticas(){
-            return estadisticas;
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
+        mAdapterTipo.stopListening();
+        mAdapterGravedad.stopListening();
+
+    }
+    /*****************************************************************/
+
+    public void onclicCargarVista(View view) {
+
+        if (opcionesReporte.equals("GRAVEDAD")){
+            progressDialog.setMessage("Cargando datos");
+            progressDialog.show();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scrollViewRecyclerGravedad.setVisibility(View.VISIBLE);
+                    scrollViewRecycler.setVisibility(View.GONE);
+                    scrollViewRecyckerTipo.setVisibility(View.GONE);
+                    progressDialog.dismiss();
+                }
+
+            }, 3000);
+
+        } else  if (opcionesReporte.equals("TIPO")){
+
+            progressDialog.setMessage("Cargando datos");
+            progressDialog.show();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scrollViewRecyckerTipo.setVisibility(View.VISIBLE);
+                    scrollViewRecycler.setVisibility(View.GONE);
+                    scrollViewRecyclerGravedad.setVisibility(View.GONE);
+                    progressDialog.dismiss();
+                }
+
+            }, 3000);
+
+        } else  if (opcionesReporte.equals("LUGAR")){
+            progressDialog.setMessage("Cargando datos");
+            progressDialog.show();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scrollViewRecycler.setVisibility(View.VISIBLE);
+                    scrollViewRecyckerTipo.setVisibility(View.GONE);
+                    scrollViewRecyclerGravedad.setVisibility(View.GONE);
+
+                    progressDialog.dismiss();
+                }
+
+            }, 3000);
+
+        } else  if (opcionesReporte.equals("VER TODO")){
+            progressDialog.setMessage("Cargando datos");
+            progressDialog.show();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    scrollViewRecyclerGravedad.setVisibility(View.VISIBLE);
+                    scrollViewRecycler.setVisibility(View.VISIBLE);
+                    scrollViewRecyckerTipo.setVisibility(View.VISIBLE);
+                    progressDialog.dismiss();
+                }
+
+            }, 4500);
+
         }
-
-        public void setMainActivity(Estadisticas estadisticas) {
-            this.estadisticas = estadisticas;
-        }
-
-        @Override
-        public void onLocationChanged(Location location) {
-
-            location.getLatitude();
-            location.getLongitude();
-            String latitud = String.valueOf(location.getLatitude());
-            String longitud = String.valueOf(location.getLongitude());
-            Log.i("latitud", "latitud: "+ latitud);
-            Log.i("longitud", "longitud: "+ longitud);
-            tvLatitud.setText(latitud);
-            tvLongitud.setText(longitud);
-            this.estadisticas.setLocation(location);
-        }
-
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-            switch (i){
-                case LocationProvider.AVAILABLE:
-                    Log.d("debug", "LocationProvide.AVAILABLE");
-                    break;
-
-                case LocationProvider.OUT_OF_SERVICE:
-                    Log.d("debug", "LocationProvide.OUT_OF_SERVICE");
-                    break;
-
-                case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                    Log.d("debug", "LocationProvide.TEMPORARILY_UNAVAILABLE");
-                    break;
-            }
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-            tvDetalle.setText("GPS Activado");
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-            tvDetalle.setText("GPS Desactivado");
+        else if (opcionesReporte.equals(" ")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Debe seleccionar alguna opción para generar estadísticas");
+            builder.setTitle("ERROR DE CONSULTA");
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
-        */
-    }
+}

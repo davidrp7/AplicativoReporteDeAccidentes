@@ -16,12 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity {
     public static final String user="names";
 
 
+    TextView txt_sobre;
 
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -33,6 +35,15 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        txt_sobre = findViewById(R.id.txt_acerca_de);
+
+        txt_sobre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MenuActivity.this,UsuarioActivity.class);
+                startActivity(intent);
+            }
+        });
 
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -54,12 +65,15 @@ public class MenuActivity extends AppCompatActivity {
 
 
     public void pasarDatos(View view) {
+        MainActivity.cambiarEstadoBoton(MenuActivity.this, false);
         Intent intent = new Intent(MenuActivity.this,MainActivity.class);
         startActivity(intent);
+        finish();
         Toast.makeText(this, "Saliste de tu sesión de usuario", Toast.LENGTH_SHORT).show();
     }
 
     public void onCLickConsultar(View view) {
+        //MapsActivity.btnregresaR.setVisibility(View.VISIBLE);
         Intent intent = new Intent(MenuActivity.this,MapsActivity.class);
         startActivity(intent);
     }

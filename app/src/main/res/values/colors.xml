@@ -11,5 +11,6 @@
     <color name="color_icon3">#2c48e7</color>
     <color name="color_FondoBlanco">#fcfcfc</color>
     <color name="color_Transparente">#00FFFFFF</color>
+    <color name="color_Gris">#888888</color>
 
 </resources>

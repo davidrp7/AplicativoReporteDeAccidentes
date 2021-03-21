@@ -41,6 +41,10 @@
         
     </android.support.constraint.ConstraintLayout>
 
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -272,6 +276,20 @@
 
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_acerca_de"
+            android:text="Acerca de "
+            android:textSize="20sp"
+            android:drawableEnd="@drawable/icon_info48"
+            android:textAlignment="textEnd"
+            android:fontFamily="sans-serif-condensed-light"
+            android:textColor="@color/color_FondoBlanco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:layout_marginRight="5dp"
+            android:drawableRight="@drawable/icon_info48" />
 
     </LinearLayout>
 

@@ -1,7 +1,9 @@
 package google.maps.colombia.aplicativoreportedeaccidentes;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,9 +14,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.animation.content.Content;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -23,7 +27,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,12 +37,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
+    private boolean estadoButton;
+    private RadioButton RbSesion;
+    private static final String STRING_PREFERENCES = "Credenciales";
+    private static final String PREFERENCE_ESTADO_BUTON = "EstadoBoton";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+        if (obetenerEstadoBoton()){
+            Intent intent = new Intent(getApplication(), MenuActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         TextEmail = findViewById(R.id.txt_email);
         TextPassword = findViewById(R.id.txt_pass);
@@ -50,11 +63,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLogin = findViewById(R.id.botonLogin);
         tv_pasarDatos = findViewById(R.id.tv_pasarDatos);
 
+        RbSesion =  findViewById(R.id.RBSesion);
+        estadoButton = RbSesion.isChecked();
+
+        RbSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(estadoButton){
+                    RbSesion.setChecked(false);
+                }
+                    estadoButton = RbSesion.isChecked();
+            }
+        });
+
 
         tv_invitado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentInvitado = new Intent(MainActivity.this, MenuActivity.class);
+                Intent intentInvitado = new Intent(MainActivity.this, InvitadoActivity.class);
                 MainActivity.this.startActivity(intentInvitado);
             }
         });
@@ -93,9 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-
-
         firebaseAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
         btnLogin.setOnClickListener(this);
@@ -130,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        guardarEstadoBoton();
                         if (task.isSuccessful()) {
                             int pos = email.indexOf("@");
                             String user = email.substring(0, pos);
@@ -137,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Intent intent = new Intent(getApplication(), MenuActivity.class);
                             intent.putExtra(MenuActivity.user, user);
                             startActivity(intent);
+                            finish();
+
 
 
                         } else {
@@ -157,10 +183,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.botonLogin:
                 loguearUsuario();
                 break;
         }
+    }
+
+    public boolean obetenerEstadoBoton(){
+        SharedPreferences preferences = getSharedPreferences(STRING_PREFERENCES, MODE_PRIVATE);
+        return preferences.getBoolean(PREFERENCE_ESTADO_BUTON, false);
+    }
+
+    public void guardarEstadoBoton(){
+        SharedPreferences preferences = getSharedPreferences(STRING_PREFERENCES, MODE_PRIVATE);
+        preferences.edit().putBoolean(PREFERENCE_ESTADO_BUTON, RbSesion.isChecked()).apply();
+    }
+
+    public static void cambiarEstadoBoton(Context c, boolean b){
+        SharedPreferences preferences = c.getSharedPreferences(STRING_PREFERENCES, MODE_PRIVATE);
+        preferences.edit().putBoolean(PREFERENCE_ESTADO_BUTON, b).apply();
     }
 }

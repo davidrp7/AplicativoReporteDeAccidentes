@@ -59,7 +59,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         btnRegistrar.setOnClickListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void registrarUsuario(){
@@ -89,6 +88,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                             Toast.makeText(RegistroActivity.this, "Se ha registrado el usuario con el email: " + TextEmail.getText(), Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplication(), MainActivity.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {//si se presenta una colisión
                                 Toast.makeText(RegistroActivity.this, "Este usuario ya existe", Toast.LENGTH_SHORT).show();

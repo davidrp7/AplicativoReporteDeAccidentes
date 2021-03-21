@@ -9,7 +9,7 @@ import android.view.WindowManager;
 
 public class AnimacionActivity extends Activity {
 
-    private final int DURACION_SPLASH = 6000;
+    private final int DURACION_SPLASH = 4000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

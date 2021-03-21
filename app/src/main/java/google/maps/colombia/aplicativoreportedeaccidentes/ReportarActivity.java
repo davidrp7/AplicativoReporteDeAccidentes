@@ -2,6 +2,7 @@ package google.maps.colombia.aplicativoreportedeaccidentes;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -22,18 +23,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
@@ -47,17 +55,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import google.maps.colombia.aplicativoreportedeaccidentes.Models.Factor;
 import google.maps.colombia.aplicativoreportedeaccidentes.Models.Gravedad;
+import google.maps.colombia.aplicativoreportedeaccidentes.Models.Reporte;
 import google.maps.colombia.aplicativoreportedeaccidentes.Models.Tipo;
 
 public class ReportarActivity extends AppCompatActivity {
 
 
     // ELEMENTOS FIRESTORE
-    //FirebaseFirestore mFirestore;
-    //String dateFirestore="";
+    FirebaseFirestore mFirestore;
+    String dateFirestore="";
+    String timeFirestore="";
+    FirebaseFirestore db;
+
+    public final String contador = "1";
 
     /***************************************************************/
     private FusedLocationProviderClient mfusedLocationProviderClient;
@@ -72,7 +86,7 @@ public class ReportarActivity extends AppCompatActivity {
     String factoraccidente="";
     String date="";
     String time="";
-
+    Button btn_ayuda_factor;
 
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -84,15 +98,17 @@ public class ReportarActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reportar);
-
+        locationStart();
         //instancia firestore
-        //mFirestore = FirebaseFirestore.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
         /********************************************/
+
 
         spinnerTipo = findViewById(R.id.spinnerTipo);
         spinnerGravedad = findViewById(R.id.spinnerGravedad);
         spinnerFactor =  findViewById(R.id.spinnerFactor);
 
+        btn_ayuda_factor = findViewById(R.id.btn_ayuda_reporte);
         tvDireccion = findViewById(R.id.txt_obtenerdireccion);
 
         mfusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -102,10 +118,11 @@ public class ReportarActivity extends AppCompatActivity {
         loadDataSpinnerGravedad();
 
         spinnerFactor.setVisibility(View.INVISIBLE);
-        locationStart();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        db = FirebaseFirestore.getInstance();
 
+        /*************************************************/
     }
 
     public void loadDataSpinnerTipo(){
@@ -130,10 +147,13 @@ public class ReportarActivity extends AppCompatActivity {
                             if (tipoaccidente != parent.getItemAtPosition(0).toString()){
                                 Toast.makeText(ReportarActivity.this, "Has seleccionado: " + tipoaccidente , Toast.LENGTH_SHORT).show();
                                 spinnerFactor.setVisibility(View.INVISIBLE);
+                                btn_ayuda_factor.setVisibility(View.INVISIBLE);
                             }
-                            if (tipoaccidente == parent.getItemAtPosition(5).toString()){
+                            if (tipoaccidente == parent.getItemAtPosition(1).toString()){
                                 loadDataSpinnerFactor();
                                 spinnerFactor.setVisibility(View.VISIBLE);
+                                btn_ayuda_factor.setVisibility(View.VISIBLE);
+
                             }
                         }
                         @Override
@@ -307,6 +327,8 @@ public class ReportarActivity extends AppCompatActivity {
         DateFormat dateFormat1 = new SimpleDateFormat("HH:mm");
         time = dateFormat1.format(Calendar.getInstance().getTime());
 
+
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -323,6 +345,8 @@ public class ReportarActivity extends AppCompatActivity {
                         if (location != null) {
                             Log.e("Latitud:", +location.getLatitude()+"Longitud:"+location.getLongitude());
                             Map<String,Object> latlang = new HashMap<>();
+                            //Reporte r = new Reporte();
+                            //r.setId_reporte(UUID.randomUUID().toString());
                             latlang.put("latitud", location.getLatitude());
                             latlang.put("longitud", location.getLongitude());
                             latlang.put("tipo_accidente", tipoaccidente);
@@ -331,52 +355,70 @@ public class ReportarActivity extends AppCompatActivity {
                             latlang.put("fecha_accidente", date);
                             latlang.put("hora_accidente", time);
                             latlang.put("direccion_accidente", tvDireccion.getText());
+                            latlang.put("contador", contador);
                             mDatabase.child("coordenadas").push().setValue(latlang);
+                            //mDatabase.child("coordenadas").child(r.getId_reporte()).setValue(latlang);
                         }
                     }
                 }
          );
     }
 
-   /* private void datosFirestore(){
-
+   private void datosFirestore(){
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         dateFirestore = dateFormat.format(Calendar.getInstance().getTime());
 
+        DateFormat dateFormat1 = new SimpleDateFormat("HH:mm");
+        timeFirestore = dateFormat1.format(Calendar.getInstance().getTime());
+
         Map<String, Object> map = new HashMap<>();
         map.put("tipoaccidente", tipoaccidente );
         map.put("gravedadaccidente", gravedadaccidente);
-        map.put("fecha", new Date().getTime());
+        map.put("fecha", dateFirestore);
+        map.put("hora", timeFirestore);
+        map.put("direccion", tvDireccion.getText());
 
-        mFirestore.collection("Reportes").document("3").set(map);
+       mFirestore.collection("Reportes").document().set(map);
 
+   }
+/*
+    private void leerDatoFirestore (){
+        DocumentReference report = db.collection("Reportes").document();
+        report.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    DocumentSnapshot doc = task.getResult();
+                }
+            }
+        });
     }*/
-
-
 
     public void onClickReportar(View view) {
 
-        //datosFirestore();
+        /*
         posicionActual();
         Toast.makeText(getBaseContext(), "Reporte de accidente realizado con éxito.", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(ReportarActivity.this, MapsActivity.class);
         startActivity(intent);
-/*
-        if(tipoaccidente.equals("CHOQUE")){
+        */
+
+        if(tipoaccidente.equals(" ")|| gravedadaccidente.equals(" ")){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Este accidente ya fue reportado");
+            builder.setMessage("No puede registrar campos vacios, seleccione alguna opción.");
             builder.setTitle("Excepción de Reporte");
             AlertDialog dialog = builder.create();
             dialog.show();
 
         } else {
+            datosFirestore();
             posicionActual();
             Toast.makeText(getBaseContext(), "Reporte de accidente realizado con éxito.", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(ReportarActivity.this, MapsActivity.class);
             startActivity(intent);
+            finish();
         }
-*/
     }
 
     public void btn_ayuda_tipo(View view) {
@@ -394,5 +436,14 @@ public class ReportarActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    public void btn_ayuda_factor(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("VEHÍCULO: Si el choque se produjo contra autmovoiles o motociletas, OBJETO FIJO: Objetos fijos en la calle, SEMOVIENTE: Si el choque se produjo contra vacunos en la vía ");
+        builder.setTitle("AYUDA SELECCIÓN DE FACTOR (?) ");
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
 
 }

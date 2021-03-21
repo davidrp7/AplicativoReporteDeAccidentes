@@ -8,51 +8,37 @@
     android:layout_height="match_parent"
     tools:context=".DatosActivity">
 
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Gravedad"
-            android:layout_weight="0.7"
-            android:textSize="20sp"
-            android:textColor="@color/colorblack"
             android:textAlignment="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="290dp"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed-light"
+            android:shadowColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorblack"
+            android:text="Dirección"/>
 
         <View
-            android:layout_width="2px"
-            android:layout_height="80px"
-            android:background="@color/colorblack"/>
-
-
-        <TextView
-            android:layout_width="match_parent"
+            android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:text="Tipo"
-            android:textAlignment="center"
-            android:textColor="@color/colorblack"
-            android:textSize="20sp" />
-
-        <View
-            android:layout_width="2px"
-            android:layout_height="80px"
-            android:background="@color/colorblack"/>
-
+            android:background="@color/colorblack">
+        </View>
 
         <TextView
-            android:text="Cantidad"
-            android:layout_weight="1"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="@color/colorblack"
             android:textAlignment="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="Cantidad" />
 
     </LinearLayout>
 
@@ -61,14 +47,15 @@
             android:layout_height="2px"
             android:background="@color/colorblack"/>
 
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewDatos"
+        android:id="@+id/recyclerDatosFirestore"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content">
     </android.support.v7.widget.RecyclerView>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/colorblack"/>
 
 </LinearLayout>

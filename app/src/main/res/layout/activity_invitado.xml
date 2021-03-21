@@ -1,10 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/colorblack"
     tools:context=".InvitadoActivity">
 
-</android.support.constraint.ConstraintLayout>
+
+
+    <FrameLayout
+        android:visibility="visible"
+        android:id="@+id/fragment_contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:itemTextColor="@color/colorPrimaryDark"
+        app:itemIconTint="@color/colorAccent"
+        android:background="@color/colorblack"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_navigation">
+
+    </android.support.design.widget.BottomNavigationView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:text="Bievenido al menú de usuario del Sistema de Información de Registro y Control de Accidentes de Tránsito, seleccione en el icono de la opción que desea elegir."
+            android:textColor="@color/color_FondoBlanco"
+            android:textSize="17sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/color_FondoBlanco"
+            android:textSize="17sp"
+            android:text="Inicia sesión para acceder a todas las funciones."/>
+
+        <LinearLayout
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="160dp"
+                android:layout_height="155dp"
+                android:onClick="onCLickConsultarInvitado"
+                android:layout_marginRight="1dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/fondo2wall"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="#d8000000"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:foreground="@drawable/icon_marker96"
+                        android:foregroundGravity="center"
+                        android:background="@drawable/fondo_icon"
+                        android:backgroundTint="@color/color_icon2"
+                        android:padding="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:text="CONSULTA"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Consulta de accidentes reportados"
+                        android:padding="5dp"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="italic"
+                        android:textColor="@android:color/darker_gray"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="160dp"
+                android:layout_height="155dp"
+                android:onClick="pasarEstadisticasInvitado"
+                android:layout_marginRight="1dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/fondo2wall"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="#d8000000"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:foreground="@drawable/icon_stats96"
+                        android:foregroundGravity="center"
+                        android:background="@drawable/fondo_icon"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:padding="10dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="sans-serif-light"
+                        android:text="ESTADISTICAS"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="italic"
+                        android:text="Revisa estadisticas de accidentes registrados"
+                        android:textColor="@android:color/darker_gray" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.CardView
+                android:foreground="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="160dp"
+                android:onClick="onCLickIniciarSesionInvitado"
+                android:layout_height="155dp"
+                android:layout_margin="10dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/fondo2wall"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="#d8000000"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="58dp"
+                        android:layout_height="58dp"
+                        android:background="@drawable/fondo_icon"
+                        android:backgroundTint="@color/colorAccent"
+                        android:foregroundGravity="center"
+                        android:foreground="@drawable/icons8_user_96"
+                        android:padding="10dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-light"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:layout_marginTop="5dp"
+                        android:text="INICIAR SESIÓN"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Inicia sesión para acceder a todas las funciones."
+                        android:padding="5dp"
+                        android:fontFamily="sans-serif-light"
+                        android:textStyle="italic"
+                        android:textColor="@android:color/darker_gray"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -131,9 +131,12 @@
                     android:background="@drawable/fondo_edittxt2">
                 </Spinner>
                 <Button
+                    android:id="@+id/btn_ayuda_reporte"
+                    android:visibility="invisible"
                     android:layout_marginLeft="20dp"
                     android:layout_width="23dp"
                     android:layout_height="23dp"
+                    android:onClick="btn_ayuda_factor"
                     android:background="@drawable/fondo_blanco"
                     android:foreground="@drawable/icon_help"/>
 

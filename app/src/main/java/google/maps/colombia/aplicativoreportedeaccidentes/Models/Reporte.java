@@ -2,6 +2,7 @@ package google.maps.colombia.aplicativoreportedeaccidentes.Models;
 
 public class Reporte {
 
+    private String id_reporte;
     public String gravedad_accidente;
     public String tipo_accidente;
     private float latitud;
@@ -11,13 +12,19 @@ public class Reporte {
 
     }
 
-    public Reporte(String gravedad_accidente, String tipo_accidente, float latitud, float longitud) {
+    public Reporte(String id_reporte, String gravedad_accidente, String tipo_accidente, float latitud, float longitud) {
+        this.id_reporte = id_reporte;
         this.gravedad_accidente = gravedad_accidente;
         this.tipo_accidente = tipo_accidente;
         this.latitud = latitud;
         this.longitud = longitud;
 
     }
+
+    public Reporte() {
+
+    }
+
 
     public String getGravedad_accidente() {
         return gravedad_accidente;
@@ -51,5 +58,11 @@ public class Reporte {
         this.longitud = longitud;
     }
 
+    public String getId_reporte() {
+        return id_reporte;
+    }
 
+    public void setId_reporte(String id_reporte) {
+        this.id_reporte = id_reporte;
+    }
 }

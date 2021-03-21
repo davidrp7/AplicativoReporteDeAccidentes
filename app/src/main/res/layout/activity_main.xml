@@ -33,7 +33,7 @@
             
             <ImageView
                 android:visibility="visible"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_gravity="center"
                 android:layout_width="140dp"
                 android:layout_height="160dp"
@@ -41,7 +41,7 @@
 
             <LinearLayout
                 android:background="@drawable/borde_verde"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_FondoBlanco"
                 android:fontFamily="sans-serif-condensed-light"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:text="INICIO DE SESIÓN"/>
 
 
@@ -60,7 +60,7 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:textColorHint="@color/colorAccent"
                 android:background="@color/color_Transparente">
 
@@ -82,7 +82,6 @@
                     android:textCursorDrawable="@null"
                     android:textSize="17sp" />
             </android.support.design.widget.TextInputLayout>
-
 
             <android.support.design.widget.TextInputLayout
                 app:passwordToggleEnabled="true"
@@ -110,6 +109,33 @@
                     android:textSize="17sp" />
             </android.support.design.widget.TextInputLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/RBSesion"
+                        android:hint="Mantener sesión iniciada"
+                        android:textColorHint="@color/color_FondoBlanco"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <CheckBox
+                        android:visibility="gone"
+                        android:id="@+id/checkSesión"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:textSize="15sp"
+                        android:textColor="@color/color_FondoBlanco"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        />
+
+                </LinearLayout>
+
             </LinearLayout>
 
 
@@ -124,7 +150,7 @@
                 android:text="Ingresar como invitado"
                 android:textSize="17sp"
                 android:visibility="visible"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="sans-serif-condensed-light"
                 android:textColor="@color/color_FondoBlanco"
                 />
 
@@ -133,7 +159,7 @@
                 android:text="DATOS"
                 android:layout_gravity="center_horizontal"
                 android:textSize="20sp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 android:textColor="@color/color_FondoBlanco"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -142,8 +168,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/fondo_boton"
+                android:layout_marginTop="20dp"
                 android:text="Ingresar"
                 android:fontFamily="sans-serif-light"
                 android:textSize="18sp"
@@ -157,7 +183,7 @@
                 android:textColor="@color/color_FondoBlanco"
                 android:text="¿Aún no tienes una cuenta? Haz click aquí"
                 android:textSize="16sp"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="sans-serif-condensed-light"
                 android:textStyle="italic" />
 
             <TextView
