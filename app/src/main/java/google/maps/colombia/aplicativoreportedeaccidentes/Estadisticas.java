@@ -302,6 +302,9 @@ public class Estadisticas extends AppCompatActivity {
         mAdapterGravedad.stopListening();
 
     }
+
+    // PRUEBA DE GITHUB
+    // PRUEBA DE GITHUB
     /*****************************************************************/
 
     public void onclicCargarVista(View view) {
