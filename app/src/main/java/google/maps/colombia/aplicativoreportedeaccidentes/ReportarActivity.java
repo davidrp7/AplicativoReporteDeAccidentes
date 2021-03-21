@@ -123,6 +123,8 @@ public class ReportarActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         /*************************************************/
+
+        //// nuevo cambio
     }
 
     public void loadDataSpinnerTipo(){
